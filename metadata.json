@@ -1,0 +1,6 @@
+{
+  "name": "Մայիս & Գոհար — Wedding Invitation",
+  "description": "Modern, luxury, and fully responsive digital wedding invitation for Mayis & Gohar on 03.10.2026.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

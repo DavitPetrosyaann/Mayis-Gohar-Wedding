@@ -1,0 +1,119 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Noto Serif Armenian", "Cormorant Garamond", Georgia, serif;
+  --font-display: "Cormorant Garamond", "Noto Serif Armenian", serif;
+  --font-script: "Great Vibes", cursive;
+  --font-sans: "Montserrat", system-ui, -apple-system, sans-serif;
+
+  /* Armenian Royal & Traditional Photoshoot Palette */
+  --color-stone: #F3EFE6;
+  --color-stone-warm: #E8E2D5;
+  --color-stone-dark: #D4CCBD;
+  --color-silk: #FAF8F5;
+  --color-silver: #8A929A;
+  --color-silver-light: #C0C7D1;
+  --color-silver-shimmer: #E2E6EA;
+  --color-charcoal: #1C1B18;
+  --color-charcoal-soft: #2E2D29;
+  --color-earth: #A87B5B;
+  --color-earth-dark: #8A5F42;
+  --color-earth-light: #C9A083;
+
+  /* Legacy aliases mapped gracefully */
+  --color-cream: #F3EFE6;
+  --color-rosegold: #A87B5B;
+  --color-gold: #C0C7D1;
+  --color-gold-light: #FAF8F5;
+  --color-gold-dark: #8A929A;
+  --color-paper: #FAF8F5;
+}
+
+/* 3D Envelope and Card Utilities */
+.perspective-1000 {
+  perspective: 1200px;
+}
+
+.perspective-2000 {
+  perspective: 2000px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Envelope Top Flap 3D Physics */
+.envelope-top-flap {
+  transform-origin: top center; /* Axis of rotation is the top horizontal line */
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+/* When opened */
+.envelope-top-flap.open {
+  transform: rotateX(180deg); /* Flips up so apex points UPWARDS (^) */
+  z-index: 1; /* Sits behind the card and envelope back */
+}
+
+/* Antique Silver Metallic Text Gradient */
+.silver-gradient-text {
+  background: linear-gradient(135deg, #757D86 0%, #E2E6EA 30%, #A4ADB6 55%, #6A727B 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Earthy Terracotta / Desert Ochre Text Gradient */
+.earth-gradient-text {
+  background: linear-gradient(135deg, #8A5F42 0%, #D4A785 35%, #A87B5B 70%, #6E462C 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Legacy gradient aliases */
+.gold-gradient-text {
+  background: linear-gradient(135deg, #757D86 0%, #E2E6EA 30%, #C0C7D1 55%, #8A929A 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.rosegold-gradient-text {
+  background: linear-gradient(135deg, #8A5F42 0%, #D4A785 35%, #A87B5B 70%, #6E462C 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Custom subtle scrollbar matching stone & silver palette */
+::-webkit-scrollbar {
+  width: 7px;
+}
+::-webkit-scrollbar-track {
+  background: #F3EFE6;
+}
+::-webkit-scrollbar-thumb {
+  background: #A87B5B;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #8A929A;
+}
+
+/* Armenian Royal Stone Border Effect */
+.luxury-border {
+  border: 1px solid rgba(138, 146, 154, 0.35);
+  box-shadow: 0 10px 35px -10px rgba(28, 27, 24, 0.08), inset 0 0 0 1px rgba(255, 255, 255, 0.85);
+}
+
+.card-shadow {
+  box-shadow: 0 20px 45px -15px rgba(28, 27, 24, 0.08), 0 0 0 1px rgba(138, 146, 154, 0.22);
+}
+
+/* Royal Armenian Terracotta & Silver Wax Seal Shadow */
+.seal-shadow {
+  box-shadow: 0 8px 20px rgba(110, 70, 44, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.45), inset 0 -2px 5px rgba(0, 0, 0, 0.45);
+}
+
