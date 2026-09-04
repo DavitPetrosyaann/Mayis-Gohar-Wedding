@@ -6,9 +6,10 @@ import { ScratchCardItem } from '../types';
 interface ScratchCardProps {
   card: ScratchCardItem;
   index: number;
+  photoUrl: string;
 }
 
-export const ScratchCard: React.FC<ScratchCardProps> = ({ card, index }) => {
+export const ScratchCard: React.FC<ScratchCardProps> = ({ card, index, photoUrl }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [isRevealed, setIsRevealed] = useState(false);
@@ -222,30 +223,28 @@ export const ScratchCard: React.FC<ScratchCardProps> = ({ card, index }) => {
         ref={containerRef}
         className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-white shadow-md border border-[#D4AF37]/35 select-none"
       >
-        {/* UNDERNEATH: Revealed Content */}
-        <div className="absolute inset-0 p-5 sm:p-6 flex flex-col justify-between bg-gradient-to-br from-[#FFFDF9] via-[#FAF6F0] to-[#F5ECE3] text-center">
-          {/* Badge & Icon */}
-          <div className="flex items-center justify-between">
-            <span className="text-xl sm:text-2xl">{card.icon}</span>
-            <span className="text-[10px] font-serif uppercase tracking-widest px-2 py-0.5 rounded-full bg-[#D4AF37]/15 text-[#99731C] border border-[#D4AF37]/30 font-medium">
-              {card.badge}
-            </span>
-          </div>
-
-          {/* Core Revealed Text */}
-          <div className="my-auto py-1">
-            <h4 className="font-serif text-base sm:text-lg font-semibold text-[#1A1A1A] tracking-wide mb-1.5 leading-snug">
-              {card.revealedTitle}
-            </h4>
-            <p className="font-serif text-xs sm:text-sm text-[#1A1A1A]/80 leading-relaxed">
-              {card.revealedMessage}
-            </p>
-          </div>
-
-          {/* Footer of revealed card */}
-          <div className="flex items-center justify-center gap-1 text-[11px] font-serif text-[#99731C]">
-            <Sparkles className="w-3 h-3 text-[#D4AF37]" />
-            <span>Բացահայտված է</span>
+        {/* UNDERNEATH: Revealed Photo */}
+        <div className="absolute inset-0 bg-[#1C1B18] overflow-hidden flex items-center justify-center">
+          <img
+            src={photoUrl}
+            alt={card.title}
+            className="w-full h-full object-cover select-none pointer-events-none transition-transform duration-700 hover:scale-105"
+            loading="lazy"
+          />
+          {/* Subtle bottom gradient overlay for badge and title */}
+          <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent p-3 sm:p-4 text-left pointer-events-none flex items-end justify-between">
+            <div>
+              <span className="inline-block text-[10px] font-serif uppercase tracking-widest px-2 py-0.5 rounded-full bg-white/20 text-white backdrop-blur-xs mb-1 border border-white/20">
+                {card.badge || `Loto #${index + 1}`}
+              </span>
+              <h4 className="font-serif text-xs sm:text-sm font-medium text-white drop-shadow-sm line-clamp-1">
+                {card.title}
+              </h4>
+            </div>
+            <div className="flex items-center gap-1 text-[11px] font-serif text-[#E6C280] drop-shadow-sm">
+              <Sparkles className="w-3.5 h-3.5 text-[#D4AF37]" />
+              <span>Բացված</span>
+            </div>
           </div>
         </div>
 

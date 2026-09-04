@@ -5,7 +5,7 @@ export interface TimelineItem {
   titleEn: string;
   locationName: string;
   address: string;
-  description: string;
+  description?: string;
   mapUrl: string;
   icon: 'groom' | 'bride' | 'church' | 'hall' | 'cake';
   highlight?: boolean;
@@ -24,8 +24,8 @@ export interface GalleryPhoto {
   id: string;
   url: string;
   alt: string;
-  title: string;
-  caption: string;
+  title?: string;
+  caption?: string;
   span?: string;
   location?: string;
 }

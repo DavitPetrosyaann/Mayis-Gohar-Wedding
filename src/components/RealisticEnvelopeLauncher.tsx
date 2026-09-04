@@ -153,7 +153,7 @@ export const RealisticEnvelopeLauncher: React.FC<EnvelopeLauncherProps> = ({
   onReset,
   onScrollToContent,
 }) => {
-  const { language } = useLanguage();
+  const { language, t } = useLanguage();
 
   // Animation Sequence Phases:
   // 'closed' -> Seal visible, top flap closed (0deg), card hidden inside pocket (translateY 0%)
@@ -290,6 +290,16 @@ export const RealisticEnvelopeLauncher: React.FC<EnvelopeLauncherProps> = ({
           >
             {language === 'en' ? `${WEDDING_COUPLE.groomEn} & ${WEDDING_COUPLE.brideEn}` : 'Մայիս & Գոհար'}
           </motion.h2>
+          {t.envelope.invitationNote ? (
+            <motion.p
+              initial={{ opacity: 0, y: 4 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="text-xs sm:text-sm font-serif text-[#1C1B18]/75 mt-2 tracking-wide max-w-xs sm:max-w-md mx-auto leading-relaxed"
+            >
+              {t.envelope.invitationNote}
+            </motion.p>
+          ) : null}
         </div>
 
         {/* 3D Perspective Envelope Canvas */}

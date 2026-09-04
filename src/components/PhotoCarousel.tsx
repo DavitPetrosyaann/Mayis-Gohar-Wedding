@@ -5,9 +5,7 @@ import {
   ChevronRight,
   Play,
   Pause,
-  MapPin,
   Camera,
-  Upload,
   RotateCcw,
 } from 'lucide-react';
 import { usePhotos } from '../context/PhotoContext';
@@ -74,8 +72,8 @@ export const PhotoCarousel: React.FC = () => {
 
   return (
     <section
-      id="carousel-gallery"
-      className="relative py-16 sm:py-24 px-4 sm:px-6 bg-[#FAF8F5] overflow-hidden"
+      id="photos"
+      className="relative py-12 sm:py-20 px-4 sm:px-6 bg-[#FAF8F5] overflow-hidden"
       dir={isRtl ? 'rtl' : 'ltr'}
     >
       <div className="max-w-5xl mx-auto">
@@ -89,44 +87,18 @@ export const PhotoCarousel: React.FC = () => {
           onChange={handleFileChange}
         />
 
-        {/* Section Header */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full border border-[#8A929A]/30 bg-[#FAF8F5] shadow-2xs mb-3">
-            <Camera className="w-3.5 h-3.5 text-[#A87B5B]" />
-            <span className="text-xs uppercase tracking-[0.2em] text-[#8A5F42] font-serif font-semibold">
-              {t.gallery.badge}
-            </span>
-          </div>
-
-          <h2 className="text-3xl sm:text-4xl font-serif text-[#1C1B18] tracking-wide">
-            {t.gallery.title}
-          </h2>
-          <p className="text-xs sm:text-sm font-serif text-[#1C1B18]/70 mt-1">
-            {t.gallery.subtitle}
-          </p>
-
-          {/* Upload & Photo Customizer Controls */}
-          <div className="mt-4 flex flex-wrap items-center justify-center gap-2.5">
+        {/* Section Controls (if custom photos loaded) */}
+        {isCustomLoaded && (
+          <div className="mb-6 flex flex-wrap items-center justify-center gap-2.5">
             <button
-              onClick={() => fileInputRef.current?.click()}
-              className="px-4 py-2 rounded-full bg-[#FAF8F5] hover:bg-[#EDE7DC] border border-[#8A929A]/40 text-[#8A5F42] text-xs font-serif flex items-center gap-2 shadow-2xs transition-all cursor-pointer"
-              title={t.gallery.uploadTooltip}
+              onClick={resetToDefault}
+              className="px-3 py-2 rounded-full bg-white/70 hover:bg-white text-[#1C1B18]/65 hover:text-[#1C1B18] text-xs font-serif flex items-center gap-1.5 transition-all cursor-pointer shadow-xs border border-[#8A929A]/30"
             >
-              <Upload className="w-3.5 h-3.5 text-[#A87B5B]" />
-              <span>{t.gallery.uploadBtn}</span>
+              <RotateCcw className="w-3 h-3" />
+              <span>{t.gallery.resetPhotos}</span>
             </button>
-
-            {isCustomLoaded && (
-              <button
-                onClick={resetToDefault}
-                className="px-3 py-2 rounded-full bg-white/70 hover:bg-white text-[#1C1B18]/65 hover:text-[#1C1B18] text-xs font-serif flex items-center gap-1.5 transition-all cursor-pointer"
-              >
-                <RotateCcw className="w-3 h-3" />
-                <span>{t.gallery.resetPhotos}</span>
-              </button>
-            )}
           </div>
-        </div>
+        )}
 
         {/* Carousel Container */}
         <div className="relative w-full max-w-4xl mx-auto">
@@ -150,29 +122,10 @@ export const PhotoCarousel: React.FC = () => {
                   referrerPolicy="no-referrer"
                 />
 
-                {/* Luxury Vignette & Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#1C1B18]/85 via-[#1C1B18]/20 to-transparent" />
-
-                {/* Caption Block */}
-                <div className="absolute bottom-0 inset-x-0 p-5 sm:p-8 text-white flex flex-col sm:flex-row sm:items-end justify-between gap-3">
-                  <div className="space-y-1 max-w-xl">
-                    {currentPhoto.location && (
-                      <div className="inline-flex items-center gap-1.5 text-xs text-[#E8E2D5] font-serif">
-                        <MapPin className="w-3 h-3 text-[#C0C7D1]" />
-                        <span>{currentPhoto.location}</span>
-                      </div>
-                    )}
-                    <h3 className="font-serif text-xl sm:text-2xl md:text-3xl text-white font-medium tracking-wide">
-                      {currentPhoto.title}
-                    </h3>
-                    <p className="font-serif text-xs sm:text-sm text-[#FAF8F5]/85 font-light">
-                      {currentPhoto.caption}
-                    </p>
-                  </div>
-
-                  {/* Photo Counter */}
-                  <div className="text-right">
-                    <span className="font-serif text-sm text-[#C0C7D1] font-medium tracking-widest">
+                {/* Subtle bottom gradient and Photo Counter */}
+                <div className="absolute bottom-4 right-4 sm:bottom-6 sm:right-6 pointer-events-none z-10">
+                  <div className="bg-[#1C1B18]/65 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/20 text-right shadow-md">
+                    <span className="font-serif text-xs sm:text-sm text-[#FAF8F5] font-medium tracking-widest">
                       {String(currentIndex + 1).padStart(2, '0')} /{' '}
                       {String(carouselPhotos.length).padStart(2, '0')}
                     </span>

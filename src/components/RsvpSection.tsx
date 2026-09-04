@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Sparkles, Check, User, Heart, MessageSquare, AlertCircle, Edit3 } from 'lucide-react';
+import { Sparkles, Check, User, Heart, AlertCircle, PlusCircle } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { RSVPFormData } from '../types';
 import { useLanguage } from '../context/LanguageContext';
@@ -79,6 +79,54 @@ export const RsvpSection: React.FC = () => {
     }
   };
 
+  const triggerFireworks = () => {
+    // 1. Initial celebratory explosion
+    confetti({
+      particleCount: 110,
+      spread: 100,
+      origin: { y: 0.6 },
+      colors: ['#D4AF37', '#CD7F32', '#FAF8F5', '#E6C280', '#FFD700', '#FFFFFF'],
+    });
+
+    // 2. Grand side-to-side fireworks display for 3.5 seconds
+    const duration = 3.5 * 1000;
+    const animationEnd = Date.now() + duration;
+
+    const interval: ReturnType<typeof setInterval> = setInterval(() => {
+      const timeLeft = animationEnd - Date.now();
+
+      if (timeLeft <= 0) {
+        return clearInterval(interval);
+      }
+
+      // Left launcher firework
+      confetti({
+        particleCount: 45,
+        angle: 60,
+        spread: 60,
+        origin: { x: 0, y: 0.75 },
+        colors: ['#D4AF37', '#CD7F32', '#FAD4B2', '#E6C280', '#FFFFFF'],
+      });
+
+      // Right launcher firework
+      confetti({
+        particleCount: 45,
+        angle: 120,
+        spread: 60,
+        origin: { x: 1, y: 0.75 },
+        colors: ['#D4AF37', '#CD7F32', '#FAD4B2', '#E6C280', '#FFFFFF'],
+      });
+
+      // Random high aerial burst
+      confetti({
+        particleCount: 40,
+        spread: 140,
+        origin: { x: Math.random() * 0.6 + 0.2, y: Math.random() * 0.35 + 0.15 },
+        colors: ['#FFD700', '#FFA500', '#FFFFFF', '#D4AF37', '#CD7F32'],
+      });
+    }, 320);
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
@@ -102,18 +150,22 @@ export const RsvpSection: React.FC = () => {
         // ignore
       }
 
-      if (formData.attendance === 'attending') {
-        confetti({
-          particleCount: 65,
-          spread: 80,
-          origin: { y: 0.6 },
-          colors: ['#C0C7D1', '#A87B5B', '#FAF8F5', '#8A929A'],
-        });
-      }
+      // Trigger grand fireworks display
+      triggerFireworks();
     }, 600);
   };
 
-  const handleEdit = () => {
+  const handleNewRequest = () => {
+    setFormData({
+      guestName: '',
+      attendance: 'attending',
+      guestsCount: 1,
+      phone: '',
+      dietaryOrNote: '',
+      musicWish: '',
+    });
+    setGuestsCountInput('1');
+    setErrors({});
     setIsSubmitted(false);
   };
 
@@ -140,9 +192,11 @@ export const RsvpSection: React.FC = () => {
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif text-[#1C1B18] tracking-wide">
             {t.rsvp.title}
           </h2>
-          <p className="text-xs sm:text-sm font-serif text-[#1C1B18]/75 mt-2">
-            {t.rsvp.subtitle}
-          </p>
+          {t.rsvp.subtitle ? (
+            <p className="text-xs sm:text-sm font-serif text-[#1C1B18]/75 mt-2">
+              {t.rsvp.subtitle}
+            </p>
+          ) : null}
         </div>
 
         {/* Card Form Wrapper */}
@@ -281,9 +335,11 @@ export const RsvpSection: React.FC = () => {
                         >
                           {t.rsvp.guestCountLabel}
                         </label>
-                        <span className="text-[11px] font-serif text-[#8A5F42]/80">
-                          {t.rsvp.guestCountHelp}
-                        </span>
+                        {t.rsvp.guestCountHelp ? (
+                          <span className="text-[11px] font-serif text-[#8A5F42]/80">
+                            {t.rsvp.guestCountHelp}
+                          </span>
+                        ) : null}
                       </div>
                       <div className="relative">
                         <input
@@ -315,53 +371,8 @@ export const RsvpSection: React.FC = () => {
                         </p>
                       )}
                     </div>
-
-                    {/* Music Wish / Favorite Song (Only if attending) */}
-                    <div>
-                      <label
-                        htmlFor="musicWish"
-                        className="block text-xs font-serif uppercase tracking-widest text-[#8A5F42] mb-1.5 font-semibold"
-                      >
-                        {t.rsvp.musicLabel}
-                      </label>
-                      <input
-                        id="musicWish"
-                        type="text"
-                        placeholder={t.rsvp.musicPlaceholder}
-                        value={formData.musicWish || ''}
-                        onChange={(e) => setFormData({ ...formData, musicWish: e.target.value })}
-                        className="w-full px-4 py-3 rounded-xl bg-[#FAF8F5] border border-[#8A929A]/40 text-sm font-serif text-[#1C1B18] placeholder:text-[#1C1B18]/40 focus:outline-hidden focus:border-[#8A5F42] focus:ring-2 focus:ring-[#8A5F42]/50 transition-all"
-                      />
-                    </div>
                   </motion.div>
                 )}
-
-                {/* Warm Wishes or Note (Always available) */}
-                <div>
-                  <label
-                    htmlFor="dietary"
-                    className="block text-xs font-serif uppercase tracking-widest text-[#8A5F42] mb-1.5 font-semibold"
-                  >
-                    {t.rsvp.dietaryLabel}
-                  </label>
-                  <div className="relative">
-                    <MessageSquare
-                      className={`w-4 h-4 text-[#8A5F42] absolute ${
-                        isRtl ? 'right-3.5' : 'left-3.5'
-                      } top-3.5 pointer-events-none`}
-                    />
-                    <textarea
-                      id="dietary"
-                      rows={3}
-                      placeholder={t.rsvp.dietaryPlaceholder}
-                      value={formData.dietaryOrNote}
-                      onChange={(e) => setFormData({ ...formData, dietaryOrNote: e.target.value })}
-                      className={`w-full ${
-                        isRtl ? 'pr-10 pl-4' : 'pl-10 pr-4'
-                      } py-3 rounded-xl bg-[#FAF8F5] border border-[#8A929A]/40 text-sm font-serif text-[#1C1B18] placeholder:text-[#1C1B18]/40 focus:outline-hidden focus:border-[#8A5F42] focus:ring-2 focus:ring-[#8A5F42]/50 transition-all resize-none`}
-                    />
-                  </div>
-                </div>
 
                 {/* Submit Button */}
                 <button
@@ -391,12 +402,40 @@ export const RsvpSection: React.FC = () => {
                 exit={{ opacity: 0, scale: 0.95 }}
                 className="text-center py-8 space-y-5"
               >
-                <div className="w-16 h-16 rounded-full bg-[#8A5F42]/15 text-[#8A5F42] mx-auto flex items-center justify-center shadow-inner">
-                  {formData.attendance === 'attending' ? (
-                    <Heart className="w-8 h-8 fill-[#8A5F42]" />
-                  ) : (
-                    <Check className="w-8 h-8" />
-                  )}
+                <div className="relative w-20 h-20 mx-auto flex items-center justify-center">
+                  {/* Expanding explosion shockwave rings */}
+                  <motion.div
+                    initial={{ scale: 0.8, opacity: 1 }}
+                    animate={{ scale: [1, 1.8, 2.2], opacity: [0.8, 0.35, 0] }}
+                    transition={{ duration: 1.8, repeat: Infinity, ease: 'easeOut' }}
+                    className="absolute inset-0 rounded-full border-2 border-[#D4AF37]"
+                  />
+                  <motion.div
+                    initial={{ scale: 0.8, opacity: 1 }}
+                    animate={{ scale: [1, 2.3, 2.8], opacity: [0.6, 0.2, 0] }}
+                    transition={{ duration: 1.8, delay: 0.45, repeat: Infinity, ease: 'easeOut' }}
+                    className="absolute inset-0 rounded-full border border-[#CD7F32]"
+                  />
+
+                  {/* Twinkling rotating firework sparkles around the circle */}
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
+                    className="absolute inset-0 pointer-events-none"
+                  >
+                    <Sparkles className="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 text-[#D4AF37]" />
+                    <Sparkles className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-3.5 h-3.5 text-[#CD7F32]" />
+                    <Sparkles className="absolute top-1/2 -left-2 -translate-y-1/2 w-3.5 h-3.5 text-[#E6C280]" />
+                    <Sparkles className="absolute top-1/2 -right-2 -translate-y-1/2 w-4 h-4 text-[#FFD700]" />
+                  </motion.div>
+
+                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#8A5F42] to-[#A87B5B] text-white flex items-center justify-center shadow-lg relative z-10">
+                    {formData.attendance === 'attending' ? (
+                      <Heart className="w-8 h-8 fill-white" />
+                    ) : (
+                      <Check className="w-8 h-8" />
+                    )}
+                  </div>
                 </div>
 
                 <div className="space-y-2 max-w-md mx-auto">
@@ -420,13 +459,13 @@ export const RsvpSection: React.FC = () => {
                   </div>
                 )}
 
-                <div className="pt-2">
+                <div className="pt-3">
                   <button
-                    onClick={handleEdit}
-                    className="inline-flex items-center gap-2 text-xs font-serif text-[#8A5F42] hover:underline cursor-pointer"
+                    onClick={handleNewRequest}
+                    className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#1C1B18] hover:bg-[#34322C] text-[#FAF8F5] text-xs font-serif shadow-md hover:shadow-lg transition-all cursor-pointer"
                   >
-                    <Edit3 className="w-3.5 h-3.5" />
-                    <span>{t.rsvp.editRsvp}</span>
+                    <PlusCircle className="w-4 h-4 text-[#D4AF37]" />
+                    <span className="tracking-wide">{t.rsvp.editRsvp}</span>
                   </button>
                 </div>
               </motion.div>

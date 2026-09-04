@@ -32,8 +32,8 @@ export const FooterSection: React.FC = () => {
 
   const getGoogleCalendarUrl = () => {
     const title = encodeURIComponent('Հարսանիք • Մայիս և Գոհար');
-    const details = encodeURIComponent('Սիրով հրավիրում ենք Ձեզ կիսելու մեր կյանքի լուսավոր օրը: Պսակադրություն՝ Սբ. Գայանե եկեղեցի (16:30), Հարսանյաց սրահ՝ Florence (18:30):');
-    const location = encodeURIComponent('Saint Gayane Church / Florence Restaurant Complex, Yerevan');
+    const details = encodeURIComponent('Սիրով հրավիրում ենք Ձեզ կիսելու մեր կյանքի լուսավոր օրը: Պսակադրություն՝ Սուրբ Հովհաննես Մկրտիչ եկեղեցի (Աբովյան) (15:00), Հարսանյաց սրահ՝ Աղաբաբյանս Մեծ Դահլիճ (17:30):');
+    const location = encodeURIComponent('Սուրբ Հովհաննես Մկրտիչ եկեղեցի(Աբովյան) / Աղաբաբյանս Մեծ Դահլիճ, Երևան');
     const dates = '20261003T123000Z/20261003T210000Z';
     return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${dates}&details=${details}&location=${location}`;
   };

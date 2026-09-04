@@ -66,9 +66,6 @@ export const PhotoProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         id: `user-photo-${Date.now()}-${idx}`,
         url,
         alt: `Mayis & Gohar Wedding Photo ${idx + 1}`,
-        title: `Մեր Լուսանկարը ${idx + 1}`,
-        caption: 'Մայիս & Գոհար • Հարսանեկան Ֆոտոշարք',
-        location: 'Երևան, Հայաստան',
         span: idx % 3 === 0 ? 'row-span-2' : 'row-span-1',
       }));
 

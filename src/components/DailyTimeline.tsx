@@ -42,9 +42,11 @@ export const DailyTimeline: React.FC = () => {
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif text-[#1C1B18] tracking-wide">
             {t.timeline.title}
           </h2>
-          <p className="text-xs sm:text-sm font-serif text-[#1C1B18]/70 mt-2 max-w-md mx-auto">
-            {t.timeline.subtitle}
-          </p>
+          {t.timeline.subtitle ? (
+            <p className="text-xs sm:text-sm font-serif text-[#1C1B18]/70 mt-2 max-w-md mx-auto">
+              {t.timeline.subtitle}
+            </p>
+          ) : null}
         </div>
 
         {/* Vertical Timeline Structure */}
@@ -111,14 +113,16 @@ export const DailyTimeline: React.FC = () => {
                         <MapPin className="w-3.5 h-3.5 text-[#A87B5B] shrink-0 mt-0.5" />
                         <div>
                           <span className="font-medium text-[#1C1B18] block">{item.locationName}</span>
-                          <span className="text-[#1C1B18]/60 block">{item.address}</span>
+                          {item.address ? <span className="text-[#1C1B18]/60 block">{item.address}</span> : null}
                         </div>
                       </div>
 
                       {/* Description */}
-                      <p className="font-serif text-xs sm:text-sm text-[#1C1B18]/75 leading-relaxed mb-4">
-                        {item.description}
-                      </p>
+                      {item.description ? (
+                        <p className="font-serif text-xs sm:text-sm text-[#1C1B18]/75 leading-relaxed mb-4">
+                          {item.description}
+                        </p>
+                      ) : null}
 
                       {/* Google Maps External Link Button */}
                       <div>

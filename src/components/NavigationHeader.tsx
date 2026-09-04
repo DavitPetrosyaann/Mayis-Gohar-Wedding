@@ -12,8 +12,6 @@ const LANGUAGES: { code: Language; name: string; flag: string; short: string }[]
   { code: 'hy', name: 'Հայերեն', flag: '🇦🇲', short: 'ՀԱՅ' },
   { code: 'en', name: 'English', flag: '🇬🇧', short: 'ENG' },
   { code: 'ru', name: 'Русский', flag: '🇷🇺', short: 'РУС' },
-  { code: 'ka', name: 'ქართული', flag: '🇬🇪', short: 'ქარ' },
-  { code: 'ar', name: 'العربية', flag: '🇦🇪', short: 'عرب' },
 ];
 
 export const NavigationHeader: React.FC<NavigationHeaderProps> = ({ onScrollTo }) => {
@@ -44,11 +42,11 @@ export const NavigationHeader: React.FC<NavigationHeaderProps> = ({ onScrollTo }
   }, []);
 
   const navLinks = [
-    { id: 'envelope', label: t.nav.envelope },
+    { id: 'header-cover', label: t.nav.envelope },
     { id: 'love-story', label: t.nav.story },
     { id: 'calendar', label: t.nav.calendar },
-    { id: 'secrets', label: t.nav.secrets },
-    { id: 'carousel-gallery', label: t.nav.photos },
+    { id: 'loto', label: t.nav.secrets },
+    { id: 'photos', label: t.nav.photos },
     { id: 'timeline', label: t.nav.timeline },
     { id: 'rsvp', label: t.nav.rsvp },
   ];

@@ -1,12 +1,10 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { NavigationHeader } from './components/NavigationHeader';
-import { RealisticEnvelopeLauncher } from './components/RealisticEnvelopeLauncher';
-import { HeroSection } from './components/HeroSection';
+import { HeaderPhotoCover } from './components/HeaderPhotoCover';
 import { LoveStorySection } from './components/LoveStorySection';
 import { CalendarCountdownSection } from './components/CalendarCountdownSection';
 import { ScratchOffSection } from './components/ScratchOffSection';
 import { PhotoCarousel } from './components/PhotoCarousel';
-import { MasonryGallery } from './components/MasonryGallery';
 import { DailyTimeline } from './components/DailyTimeline';
 import { RsvpSection } from './components/RsvpSection';
 import { LanguageProvider, useLanguage } from './context/LanguageContext';
@@ -14,28 +12,30 @@ import { PhotoProvider } from './context/PhotoContext';
 import { MusicProvider } from './context/MusicContext';
 
 function WeddingAppContent() {
-  const [isEnvelopeOpened, setIsEnvelopeOpened] = useState(false);
-  const heroRef = useRef<HTMLDivElement | null>(null);
+  const [isHeaderOpened, setIsHeaderOpened] = useState(false);
   const { isRtl } = useLanguage();
 
   const handleScrollTo = (id: string) => {
-    const el = document.getElementById(id);
+    if (!isHeaderOpened) {
+      setIsHeaderOpened(true);
+    }
+    setTimeout(() => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 50);
+  };
+
+  const handleOpenHeader = () => {
+    setIsHeaderOpened(true);
+  };
+
+  const handleScrollToContent = () => {
+    const el = document.getElementById('love-story');
     if (el) {
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-  };
-
-  const handleEnvelopeOpened = () => {
-    setIsEnvelopeOpened(true);
-    // Smoothly scroll to the hero section after admiring the opened invitation reveal
-    setTimeout(() => {
-      heroRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 2800);
-  };
-
-  const handleEnvelopeReset = () => {
-    setIsEnvelopeOpened(false);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
@@ -47,48 +47,36 @@ function WeddingAppContent() {
       <NavigationHeader onScrollTo={handleScrollTo} />
 
       {/* Main Content Flow */}
-      <main className="pt-16 sm:pt-20">
-        {/* Section 1: 3D Interactive Envelope with Smooth Realistic Physics */}
-        <section id="envelope">
-          <RealisticEnvelopeLauncher
-            isOpened={isEnvelopeOpened}
-            onOpen={handleEnvelopeOpened}
-            onReset={handleEnvelopeReset}
-            onScrollToContent={() => handleScrollTo('hero')}
+      <main>
+        {/* Section 1: Header Photo Cover with Click-to-Scale and Scroll-Lock */}
+        <section id="header-cover">
+          <HeaderPhotoCover
+            isOpened={isHeaderOpened}
+            onOpen={handleOpenHeader}
+            onScrollToContent={handleScrollToContent}
           />
         </section>
 
-        {/* Section 2: Header / Hero Section */}
-        <div id="hero" ref={heroRef}>
-          <HeroSection
-            onRsvpClick={() => handleScrollTo('rsvp')}
-            onExploreClick={() => handleScrollTo('love-story')}
-          />
-        </div>
-
-        {/* Section 3: Welcome Message & Love Story */}
+        {/* Section 2: Welcome Message & Love Story */}
         <LoveStorySection />
 
-        {/* Section 4: Calendar & Live Countdown */}
+        {/* Section 3: Calendar & Live Countdown */}
         <CalendarCountdownSection />
 
-        {/* Section 5: Scratch-Off Box */}
+        {/* Section 4: Interactive Loto Scratch-Off Cards (Reveals Wedding Photos) */}
         <ScratchOffSection />
 
-        {/* Section 6: Pre-Wedding Photo Carousel */}
+        {/* Section 5: Pre-Wedding Photo Gallery */}
         <PhotoCarousel />
 
-        {/* Section 7: Masonry Photo Grid & Lightbox */}
-        <MasonryGallery />
-
-        {/* Section 8: Daily Schedule / Timeline (Օրվա Ծրագիր) */}
+        {/* Section 6: Daily Schedule / Timeline (Օրվա Ծրագիր) */}
         <DailyTimeline />
 
-        {/* Section 9: Interactive RSVP Form with Dynamic Field Visibility & Max 10 Guests */}
+        {/* Section 7: Interactive RSVP Form with 'Նոր Հայտ' / 'New Request' submission */}
         <RsvpSection />
       </main>
 
-      {/* Clean Minimalist Bottom Border Accent (Removed redundant footer invitation text as requested) */}
+      {/* Clean Minimalist Bottom Border Accent */}
       <footer className="py-8 bg-[#E8E2D5] border-t border-[#8A929A]/25 text-center">
         <p className="text-xs font-serif tracking-widest uppercase text-[#8A5F42]">
           Մ & Գ • 03.10.2026

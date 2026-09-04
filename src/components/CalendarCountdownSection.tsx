@@ -19,10 +19,10 @@ export const CalendarCountdownSection: React.FC = () => {
   const getGoogleCalendarUrl = () => {
     const title = encodeURIComponent('Հարսանիք • Մայիս և Գոհար');
     const details = encodeURIComponent(
-      'Սիրով հրավիրում ենք Ձեզ կիսելու մեր կյանքի լուսավոր օրը: Պսակադրություն՝ Սբ. Գայանե եկեղեցի (16:30), Հարսանյաց սրահ՝ Florence (18:30):'
+      'Սիրով հրավիրում ենք Ձեզ կիսելու մեր կյանքի լուսավոր օրը: Պսակադրություն՝ Սուրբ Հովհաննես Մկրտիչ եկեղեցի (Աբովյան) (15:00), Հարսանյաց սրահ՝ Աղաբաբյանս Մեծ Դահլիճ (17:30):'
     );
     const location = encodeURIComponent(
-      'Saint Gayane Church / Florence Restaurant Complex, Yerevan'
+      'Սուրբ Հովհաննես Մկրտիչ եկեղեցի(Աբովյան) / Աղաբաբյանս Մեծ Դահլիճ, Երևան'
     );
     const dates = '20261003T123000Z/20261003T210000Z';
     return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${dates}&details=${details}&location=${location}`;
@@ -39,7 +39,7 @@ export const CalendarCountdownSection: React.FC = () => {
       'BEGIN:VEVENT',
       'SUMMARY:Հարսանիք • Մայիս և Գոհար',
       'DESCRIPTION:Հարսանեկան արարողություն և շքեղ հանդիսություն',
-      'LOCATION:Սուրբ Գայանե Եկեղեցի & Florence ռեստորանային համալիր',
+      'LOCATION:Սուրբ Հովհաննես Մկրտիչ եկեղեցի(Աբովյան) & Աղաբաբյանս Մեծ Դահլիճ',
       'DTSTART:20261003T123000Z',
       'DTEND:20261003T210000Z',
       'STATUS:CONFIRMED',
@@ -87,9 +87,11 @@ export const CalendarCountdownSection: React.FC = () => {
           <h2 className="text-3xl sm:text-4xl font-serif text-[#1C1B18] tracking-wide">
             {t.calendar.title}
           </h2>
-          <p className="text-xs sm:text-sm font-serif text-[#1C1B18]/70 mt-1">
-            {t.calendar.subtitle}
-          </p>
+          {t.calendar.subtitle ? (
+            <p className="text-xs sm:text-sm font-serif text-[#1C1B18]/70 mt-1">
+              {t.calendar.subtitle}
+            </p>
+          ) : null}
         </div>
 
         {/* Live Countdown Counter */}
@@ -132,19 +134,45 @@ export const CalendarCountdownSection: React.FC = () => {
           className="bg-white rounded-3xl p-6 sm:p-10 shadow-md border border-[#8A929A]/30 max-w-xl mx-auto"
         >
           {/* Month & Year Title */}
-          <div className="flex items-center justify-between pb-6 border-b border-[#8A929A]/20 mb-6">
+          <div className="flex items-center justify-between pb-6 border-b border-[#8A929A]/20 mb-6 relative">
             <div>
               <h3 className="font-serif text-2xl sm:text-3xl text-[#1C1B18]">
                 {t.calendar.monthYear}
               </h3>
-              <p className="text-xs font-serif text-[#8A5F42] tracking-wider uppercase">
+              <p className="text-xs font-serif text-[#8A5F42] tracking-wider uppercase font-semibold">
                 03.10.2026
               </p>
             </div>
 
-            <div className="w-12 h-12 rounded-full border border-[#8A929A]/30 bg-[#FAF8F5] flex items-center justify-center">
+            {/* Moving Animated Heart Icon Badge */}
+            <motion.div
+              animate={{
+                scale: [1, 1.2, 1, 1.12, 1],
+                y: [0, -4, 0, -2, 0],
+                rotate: [-5, 5, -3, 3, 0],
+              }}
+              transition={{
+                duration: 2.2,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
+              className="w-12 h-12 rounded-full border border-[#8A929A]/30 bg-[#FAF8F5] flex items-center justify-center shadow-xs relative"
+            >
               <Heart className="w-5 h-5 text-[#A87B5B] fill-[#A87B5B]" />
-            </div>
+              {/* Soft mini halo */}
+              <motion.div
+                animate={{
+                  scale: [1, 1.35, 1],
+                  opacity: [0.4, 0, 0.4],
+                }}
+                transition={{
+                  duration: 2.2,
+                  repeat: Infinity,
+                  ease: 'easeOut',
+                }}
+                className="absolute inset-0 rounded-full border border-[#A87B5B]/50"
+              />
+            </motion.div>
           </div>
 
           {/* Weekday Labels */}
@@ -176,10 +204,54 @@ export const CalendarCountdownSection: React.FC = () => {
                   className="aspect-square flex items-center justify-center relative"
                 >
                   {isWeddingDay ? (
-                    <div className="relative w-full h-full flex flex-col items-center justify-center rounded-xl bg-gradient-to-br from-[#A87B5B] to-[#8A5F42] text-[#FAF8F5] shadow-md border border-[#C0C7D1]/50 font-serif">
+                    <motion.div
+                      animate={{
+                        scale: [1, 1.05, 1],
+                        boxShadow: [
+                          '0 4px 10px rgba(168, 123, 91, 0.25)',
+                          '0 8px 22px rgba(168, 123, 91, 0.45)',
+                          '0 4px 10px rgba(168, 123, 91, 0.25)',
+                        ],
+                      }}
+                      transition={{
+                        duration: 2.4,
+                        repeat: Infinity,
+                        ease: 'easeInOut',
+                      }}
+                      className="relative w-full h-full flex flex-col items-center justify-center rounded-xl bg-gradient-to-br from-[#A87B5B] to-[#8A5F42] text-[#FAF8F5] shadow-md border border-[#C0C7D1]/50 font-serif overflow-visible z-10"
+                    >
                       <span className="text-base sm:text-lg font-bold leading-none">{day}</span>
-                      <Heart className="w-2.5 h-2.5 fill-[#FAF8F5] mt-0.5" />
-                    </div>
+                      {/* Moving floating heart inside wedding date */}
+                      <motion.div
+                        animate={{
+                          y: [0, -3.5, 0, -2, 0],
+                          scale: [1, 1.3, 1, 1.15, 1],
+                          rotate: [-6, 6, -3, 3, 0],
+                        }}
+                        transition={{
+                          duration: 1.8,
+                          repeat: Infinity,
+                          ease: 'easeInOut',
+                        }}
+                        className="mt-0.5"
+                      >
+                        <Heart className="w-3 h-3 fill-[#FAF8F5] text-[#FAF8F5] drop-shadow-xs" />
+                      </motion.div>
+
+                      {/* Gentle pulsating glow ring */}
+                      <motion.div
+                        animate={{
+                          scale: [1, 1.25, 1],
+                          opacity: [0.6, 0, 0.6],
+                        }}
+                        transition={{
+                          duration: 2,
+                          repeat: Infinity,
+                          ease: 'easeOut',
+                        }}
+                        className="absolute inset-0 rounded-xl border-2 border-[#A87B5B] pointer-events-none"
+                      />
+                    </motion.div>
                   ) : (
                     <span
                       className={`text-xs sm:text-sm font-serif ${
